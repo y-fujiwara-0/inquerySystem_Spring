@@ -12,7 +12,7 @@
     <thead>
     <tr>
         <th>No:</th>
-        <th>問い合わせ内容</th>
+        <th>問い合わせカテゴリ</th>
         <th>発信者</th>
         <th>件名</th>
         <th>日付</th>
@@ -21,9 +21,18 @@
     </thead>
     <tbody>
     <tr th:each="inquery : ${inqueryList}">
-        <td><a href="./detail.html" th:href="@{/inquery/{id}(id=${inquery.id})}"  th:text="${inquery.id}">(id)</a></td>
-        <td th:text="${inquery.classification}"></td>
-        <td th:text="${inquery.mailAddress}"></td>
+        <td th:text="${inquery.id}">(id)</td>
+        <td>
+            <span th:switch="${inquery.classification}">
+                <span th:case="'1'">コースについて</span>
+                <span th:case="'2'">金額について</span>
+                <span th:case="'3'">申し込みについて</span>
+                <span th:case="'4'">法人研修について</span>
+                <span th:case="'99'">その他</span>
+                <span th:case="*">未知の分類</span>
+            </span>
+        </td>
+        <td><a href="./detail.html" th:href="@{/inquery/{id}(id=${inquery.id})}" th:text="${inquery.mailAddress}"></a></td>
         <td th:text="${inquery.classification}"></td>
         <td th:text="${inquery.day}"></td>
         <td th:text="${inquery.unread == '1' ? '未読' : '既読'}"></td>
