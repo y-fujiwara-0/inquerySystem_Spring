@@ -1,0 +1,66 @@
+package com.example.its.web.inquery;
+
+import com.example.its.domain.inquery.Inquery;
+import com.example.its.domain.inquery.InqueryService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@Controller
+@RequestMapping("/inquery")
+@RequiredArgsConstructor
+public class InqueryController {
+    @Autowired
+    private final InqueryService inqueryService;
+
+    @GetMapping
+    public String listInquery(Model model) {
+        model.addAttribute("inqueryList", inqueryService.findAll());
+        return "inquery/list";
+    }
+
+    @GetMapping("/creationForm")
+    public String showInqueryForm(Model model) {
+        model.addAttribute("inqueryForm", new InqueryForm());
+        return "inquery/creationForm";
+    }
+
+    @PostMapping("/inquery")
+    public String submitInquery(@Valid @ModelAttribute InqueryForm inqueryForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "inquery/inqueryForm";
+        }
+        Inquery inquery = new Inquery();
+        inquery.setMailAddress(inqueryForm.getMailAddress());
+        inquery.setName(inqueryForm.getName());
+        inquery.setOld(inqueryForm.getOld());
+        inquery.setAddress(inqueryForm.getAddress());
+        inquery.setClassification(inqueryForm.getClassification());
+        inquery.setDay(inqueryForm.getDay());
+        inquery.setUnread(inqueryForm.getUnread());
+        inquery.setBody(inqueryForm.getBody());
+        inqueryService.save(inquery);
+        return "redirect:/inquery";
+    }
+
+    @GetMapping("/{id}")
+    public String getInqueryDetail(@PathVariable Long id, Model model) {
+        model.addAttribute("inquery", inqueryService.findById(id));
+        return "inquery/detail";
+    }
+
+    @PostMapping("/inquery/{id}/read")
+    public String markAsRead(@PathVariable("inqueryId") Long id) {
+        Inquery inquery = inqueryService.findById(id);
+        if (inquery != null) {
+            inquery.setUnread("0"); // Mark as read
+            inqueryService.save(inquery);
+        }
+        return "redirect:/inquery";
+    }
+}
