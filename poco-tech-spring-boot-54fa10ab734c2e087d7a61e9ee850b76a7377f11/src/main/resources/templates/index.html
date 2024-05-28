@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
       th:replace="~{fragments/layout :: layout(~{::title}, ~{::body})}">
 <head>
-    <title>トップページ | 課題管理アプリケーション</title>
+    <title>トップページ | 問い合わせシステム</title>
 </head>
 <body>
-<h1 class="mt-3">課題管理アプリケーション</h1>
+<h1 class="mt-3">問い合わせシステム</h1>
 <ul>
     <li>
         <a href="./inquery/list.html" th:href="@{/inquery}">問い合わせ一覧</a>
     </li>
+    <li sec:authorize="hasAuthority('ADMIN')"><a href="./users/list.html" th:href="@{/users}">ユーザー一覧</a></li>
+    <li><a href="./logout.html" th:href="@{/logout}">ログアウト</a></li>
 </ul>
 </body>
 </html>
