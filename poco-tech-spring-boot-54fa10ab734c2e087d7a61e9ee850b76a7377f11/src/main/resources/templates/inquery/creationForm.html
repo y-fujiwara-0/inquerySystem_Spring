@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout(~{::title}, ~{::body})}">
 <head>
+    <meta charset="UTF-8">
     <title>問い合わせフォーム｜問い合わせシステム</title>
 </head>
 <body>
@@ -24,22 +25,20 @@
         <input type="text" id="address" th:field="*{address}" />
     </div>
     <div>
-        <label for="classification">分類:</label>
-        <input type="text" id="classification" th:field="*{classification}" />
-    </div>
-    <div>
-        <label for="day">日付:</label>
-        <input type="date" id="day" th:field="*{day}" />
-    </div>
-    <div>
-        <label for="unread">未読:</label>
-        <input type="text" id="unread" th:field="*{unread}" />
+        <label for="classification">問い合わせカテゴリ:</label>
+        <select id="classification" th:field="*{classification}">
+            <option value="1">コースについて</option>
+            <option value="2">金額について</option>
+            <option value="3">申し込みについて</option>
+            <option value="4">法人研修について</option>
+            <option value="99">その他</option>
+        </select>
     </div>
     <div>
         <label for="body">内容:</label>
         <textarea id="body" th:field="*{body}"></textarea>
     </div>
-    <button type="submit">登録</button>
+    <button type="submit">送信</button>
 </form>
 </body>
 </html>

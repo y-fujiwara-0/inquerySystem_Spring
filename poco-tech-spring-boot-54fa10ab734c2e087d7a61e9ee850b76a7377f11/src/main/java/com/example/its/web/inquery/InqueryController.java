@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/inquery")
@@ -41,8 +42,8 @@ public class InqueryController {
         inquery.setOld(inqueryForm.getOld());
         inquery.setAddress(inqueryForm.getAddress());
         inquery.setClassification(inqueryForm.getClassification());
-        inquery.setDay(inqueryForm.getDay());
-        inquery.setUnread(inqueryForm.getUnread());
+        inquery.setDay(inqueryForm.getDay() != null ? inqueryForm.getDay() : String.valueOf(LocalDate.now()));
+        inquery.setUnread(inqueryForm.getUnread() != null ? inqueryForm.getUnread() : "1");
         inquery.setBody(inqueryForm.getBody());
         inqueryService.save(inquery);
         return "redirect:/inquery";

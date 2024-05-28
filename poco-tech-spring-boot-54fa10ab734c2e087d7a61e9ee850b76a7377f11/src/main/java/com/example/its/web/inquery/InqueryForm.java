@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Data
 public class InqueryForm {
@@ -28,11 +30,11 @@ public class InqueryForm {
     private String classification;
 
     @NotEmpty
-    @Size(max = 50)
-    private String day;
+    private LocalDate today = LocalDate.now();
+    String day = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
     @NotEmpty
-    private String unread;
+    private String unread = "1";
 
     @NotEmpty
     @Size(max = 1000)
