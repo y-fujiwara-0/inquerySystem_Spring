@@ -26,6 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().disable();
         http
+                .authorizeRequests().antMatchers("/inquery/creationForm").permitAll()
+                        .and()
+                        .csrf().ignoringAntMatchers("/inquery/creationForm")
+                        .and()
+                        .headers().frameOptions().disable();
+
+        http
                 .authorizeRequests()
                 .mvcMatchers("/users/**").hasAuthority("ADMIN")
                 .mvcMatchers("/login/**").permitAll()
