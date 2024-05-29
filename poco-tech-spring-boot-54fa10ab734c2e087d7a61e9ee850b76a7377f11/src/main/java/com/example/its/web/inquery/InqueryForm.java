@@ -3,6 +3,7 @@ package com.example.its.web.inquery;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +30,7 @@ public class InqueryForm {
     @Size(max = 100)
     private String classification;
 
-    @NotEmpty
+    @NotNull
     private LocalDate today = LocalDate.now();
     String day = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 

@@ -17,9 +17,9 @@ public class InqueryService {
         return inqueryRepository.findAll();
     }
 
-    //TODO inqueryにあったものに変更する
+
     @Transactional
-    public Inquery save(Inquery inquery) {
+    public int save(Inquery inquery) {
         return inqueryRepository.save(inquery);
     }
 

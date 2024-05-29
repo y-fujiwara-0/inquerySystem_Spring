@@ -1,5 +1,6 @@
 package com.example.its.web.inquery;
 
+import org.apache.ibatis.annotations.Mapper;
 import com.example.its.domain.inquery.Inquery;
 import com.example.its.domain.inquery.InqueryService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class InqueryController {
         return "inquery/creationForm";
     }
 
-    @PostMapping("/inquery")
+    @PostMapping
     public String submitInquery(@Valid @ModelAttribute InqueryForm inqueryForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "inquery/inqueryForm";
