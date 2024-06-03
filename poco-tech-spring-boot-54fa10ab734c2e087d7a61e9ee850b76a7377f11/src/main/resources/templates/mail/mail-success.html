@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::body})}">
+<head>
+    <title>メール送信完了画面｜問い合わせシステム</title>
+</head>
+<body>
+<h1>メール送信完了！</h1>
+<ul>
+    <li>
+        <a href="./inquery/list.html" th:href="@{/inquery}">問い合わせ一覧に戻る</a>
+    </li>
+</ul>
+</body>
+</html>
