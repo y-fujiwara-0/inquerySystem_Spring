@@ -11,7 +11,6 @@ public interface InqueryRepository{
     @Select("select * from inquerys ORDER BY id DESC")
     List<Inquery> findAll();
 
-    //TODO inquerysにあったものにあとで変更する
     @Insert("insert into inquerys (summary, description) values (#{summary}, #{description})")
     void insert(String summary, String description);
 
