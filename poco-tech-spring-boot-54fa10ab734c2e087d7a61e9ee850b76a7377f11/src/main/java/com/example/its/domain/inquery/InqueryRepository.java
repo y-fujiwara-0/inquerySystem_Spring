@@ -1,13 +1,12 @@
 package com.example.its.domain.inquery;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Mapper
-public interface InqueryRepository {
+public interface InqueryRepository{
 
     @Select("select * from inquerys")
     List<Inquery> findAll();
@@ -21,4 +20,8 @@ public interface InqueryRepository {
 
     @Insert("insert into inquerys (mailAddress, name, old, address, classification, day, unread, body) values(#{mailAddress}, #{name}, #{old}, #{address}, #{classification}, #{day}, #{unread}, #{body})")
     int save(Inquery inquery);
+
+    @Transactional
+    @Update("UPDATE inquerys  SET unread = '0' WHERE id = #{id}")
+    void markAsRead(@Param("id") String id);
 }

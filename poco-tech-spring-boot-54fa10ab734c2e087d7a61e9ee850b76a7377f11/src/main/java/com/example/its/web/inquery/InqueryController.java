@@ -58,11 +58,8 @@ public class InqueryController {
 
     @PostMapping("/inquery/{id}/read")
     public String markAsRead(@PathVariable("inqueryId") Long id) {
-        Inquery inquery = inqueryService.findById(id);
-        if (inquery != null) {
-            inquery.setUnread("0"); // Mark as read
-            inqueryService.save(inquery);
-        }
+        inqueryService.findById(id);
+        inqueryService.markAsRead(id);
         return "redirect:/inquery";
     }
 }
