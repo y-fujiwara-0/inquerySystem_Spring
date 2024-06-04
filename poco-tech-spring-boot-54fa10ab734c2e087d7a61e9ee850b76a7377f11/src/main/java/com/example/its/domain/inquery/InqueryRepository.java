@@ -24,4 +24,9 @@ public interface InqueryRepository{
     @Transactional
     @Update("UPDATE inquerys  SET unread = '0' WHERE id = #{id}")
     void markAsRead(@Param("id") String id);
+
+    @Transactional
+    @Update("UPDATE inquerys  SET unread = '1' WHERE id = #{id}")
+    void markAsUnread(@Param("id") Long id);
 }
+

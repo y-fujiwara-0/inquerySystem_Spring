@@ -37,10 +37,9 @@ public class InqueryService {
         inqueryRepository.save(inquery);
     }
     //未読処理
-   /* public void markAsUnread(Long id){
+    public void markAsUnread(Long id){
         Inquery inquery = findById(id);
         inquery.setUnread("1");
         inqueryRepository.save(inquery);
     }
-    */
 }

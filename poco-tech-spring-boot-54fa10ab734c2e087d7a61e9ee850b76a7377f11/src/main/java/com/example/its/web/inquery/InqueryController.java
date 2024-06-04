@@ -1,6 +1,6 @@
 package com.example.its.web.inquery;
 
-import org.apache.ibatis.annotations.Mapper;
+import com.example.its.domain.inquery.InqueryRepository;
 import com.example.its.domain.inquery.Inquery;
 import com.example.its.domain.inquery.InqueryService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ import java.time.LocalDate;
 public class InqueryController {
     @Autowired
     private final InqueryService inqueryService;
+    private final InqueryRepository inqueryRepository;
 
     @GetMapping
     public String listInquery(Model model) {
@@ -56,10 +57,10 @@ public class InqueryController {
         return "inquery/detail";
     }
 
-    @PostMapping("/inquery/{id}/read")
-    public String markAsRead(@PathVariable("inqueryId") Long id) {
+    @GetMapping("/inquery/{id}/read")
+    public String markAsRead(@PathVariable Long id) {
         inqueryService.findById(id);
-        inqueryService.markAsRead(id);
-        return "redirect:/inquery";
+        inqueryRepository.markAsUnread(id);
+        return "inquery/list";
     }
 }
