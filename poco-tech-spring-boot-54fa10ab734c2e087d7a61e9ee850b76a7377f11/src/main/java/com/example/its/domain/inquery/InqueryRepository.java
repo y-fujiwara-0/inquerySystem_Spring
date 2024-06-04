@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface InqueryRepository{
 
-    @Select("select * from inquerys")
+    @Select("select * from inquerys ORDER BY id DESC")
     List<Inquery> findAll();
 
     //TODO inquerysにあったものにあとで変更する

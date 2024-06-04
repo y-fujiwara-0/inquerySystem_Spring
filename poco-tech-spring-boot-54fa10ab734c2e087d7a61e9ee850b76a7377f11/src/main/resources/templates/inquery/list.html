@@ -14,7 +14,7 @@
         <th>No:</th>
         <th>問い合わせカテゴリ</th>
         <th>発信者</th>
-        <th>件名</th>
+        <th>本文</th>
         <th>日付</th>
         <th>未読</th>
     </tr>
@@ -33,7 +33,7 @@
             </span>
         </td>
         <td><a href="./detail.html" th:href="@{/inquery/{id}(id=${inquery.id})}" th:text="${inquery.mailAddress}"></a></td>
-        <td th:text="${inquery.classification}"></td>
+        <td th:text="${#strings.substring(inquery.body, 0, 10)} + '...'"></td>
         <td th:text="${inquery.day}"></td>
         <td th:text="${inquery.unread == '1' ? '未読' : '既読'}"></td>
     </tr>
