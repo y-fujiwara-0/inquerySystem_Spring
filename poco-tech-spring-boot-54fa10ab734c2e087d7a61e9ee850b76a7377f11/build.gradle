@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'com.diffplug.eclipse.apt' version '3.23.0'
 }
 
 group = 'com.example'
@@ -32,7 +33,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'org.springframework.session:spring-session-core'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.seasar.doma.boot:doma-spring-boot-starter:1.4.0'
+	annotationProcessor 'org.seasar.doma:doma-processor:2.35.0'
 }
 
 test {

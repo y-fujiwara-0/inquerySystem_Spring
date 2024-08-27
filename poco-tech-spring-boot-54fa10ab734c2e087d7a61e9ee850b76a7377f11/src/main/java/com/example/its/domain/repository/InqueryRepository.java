@@ -1,0 +1,32 @@
+package com.example.its.domain.repository;
+
+import com.example.its.domain.model.Inquery;
+import org.apache.ibatis.annotations.*;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Mapper
+public interface InqueryRepository{
+
+    @Select("select * from inquerys ORDER BY id DESC")
+    List<Inquery> findAll();
+
+    @Insert("insert into inquerys (summary, description) values (#{summary}, #{description})")
+    void insert(String summary, String description);
+
+    @Select("select * from inquerys where id = #{inqueryid}")
+    Inquery findById(long inqueryId);
+
+    @Insert("insert into inquerys (mailAddress, name, old, address, classification, day, unread, body) values(#{mailAddress}, #{name}, #{old}, #{address}, #{classification}, #{day}, #{unread}, #{body})")
+    int save(Inquery inquery);
+
+    @Transactional
+    @Update("UPDATE inquerys  SET unread = '0' WHERE id = #{id}")
+    void markAsRead(@Param("id") String id);
+
+    @Transactional
+    @Update("UPDATE inquerys  SET unread = '1' WHERE id = #{id}")
+    void markAsUnread(@Param("id") Long id);
+}
+
