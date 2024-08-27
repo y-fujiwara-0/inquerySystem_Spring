@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @Controller
 public class IndexController {
@@ -31,19 +32,18 @@ public class IndexController {
     @PostMapping("/login")
     public String processLogin(@RequestParam("username") String username,
                                @RequestParam("password") String password) {
-        if (session != null && session.getAttribute("user") == null) {
-            User user = new User(username, password);
-            session.setAttribute("user", user);
-        }
+        Optional.ofNullable(session)
+                .filter(s -> s.getAttribute("user") == null)
+                .ifPresent(s -> s.setAttribute("user", new User(username, password)));
+
         return "index"; // ログイン成功後のページにリダイレクト
     }
 
     @GetMapping("/logout")
     public String showLogoutForm(HttpServletRequest request) {
-        session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
+        Optional.ofNullable(request.getSession(false))
+                .ifPresent(HttpSession::invalidate);
+
         return "logout";
     }
 

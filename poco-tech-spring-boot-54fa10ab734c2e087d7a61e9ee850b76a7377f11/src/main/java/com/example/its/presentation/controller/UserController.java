@@ -45,8 +45,11 @@ public class UserController {
     @GetMapping("/passwordForm")
     public String showPasswordUpdateForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("user", authentication.getPrincipal());
-        model.addAttribute("username", authentication.getName());
+        Runnable addAttributes = () -> {
+            model.addAttribute("user", authentication.getPrincipal());
+            model.addAttribute("username", authentication.getName());
+        };
+        addAttributes.run(); // 属性設定実行
         return "users/passwordForm";
     }
 }

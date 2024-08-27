@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 
 import static org.apache.tomcat.jni.SSL.setPassword;
 
@@ -22,7 +23,6 @@ public class UserService  {
     @Autowired
     HttpSession session;
 
-
     @PreAuthorize("hasAuthority('ADMIN')")
     public List<User> findAll() {
         return userRepository.findAll();
@@ -30,20 +30,19 @@ public class UserService  {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     public void create(String username, String password, String authority) {
-        var encodedPassword = passwordEncoder.encode(password);
+        var encodedPassword = Optional.ofNullable(password)
+                .map(passwordEncoder::encode)
+                .orElseThrow(() -> new IllegalArgumentException("Password cannot be null"));
         userRepository.insert(username, encodedPassword, authority);
     }
 
     @Transactional
     public void updatePassword(String username, String newPassword) {
-        var user = userRepository.findByUsername(username);
-        setPassword(passwordEncoder.encode(newPassword));
-        userRepository.updatePassword(username,newPassword);
+        userRepository.findByUsername(username).ifPresent(user -> {
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            userRepository.updatePassword(username, encodedPassword);
+        });
     }
 
-    public void setUsername(String username){
-
-        session.setAttribute("username",username);
-
-    }
+    public void setUsername(String username){session.setAttribute("username",username);}
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/mail")
 @RequiredArgsConstructor
@@ -23,11 +25,12 @@ public class MailController {
 
 
     @GetMapping("/send")
-    public String sendMail(@RequestParam String mailaddress, @RequestParam String subject, @RequestParam String text, @RequestParam String id ,Model model) {
-        mailService.Mail(mailaddress, subject, text);
-        inqueryRepository.markAsRead(id);
+    public String sendMail(@RequestParam String mailaddress, @RequestParam String subject, @RequestParam String text, @RequestParam String id, Model model) {
+        Optional.of(mailService).ifPresent(service -> service.Mail(mailaddress, subject, text));
+        Optional.of(inqueryRepository).ifPresent(repo -> repo.markAsRead(id));
         return "redirect:/mail/success";
     }
+
     @GetMapping("/success")
     public String mailSuccess() {
         return "mail/mail-success";
@@ -35,8 +38,8 @@ public class MailController {
 
     @GetMapping("/form")
     public String mailForm(@RequestParam long id, Model model) {
-        Inquery inquery = inqueryService.findById(id);
-        model.addAttribute("inquery", inquery);
+        Optional.ofNullable(inqueryService.findById(id))
+                .ifPresent(inquery -> model.addAttribute("inquery", inquery));
         return "mail/mailForm";
     }
 }

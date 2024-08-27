@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/inquery")
@@ -37,16 +38,16 @@ public class InqueryController {
     public String submitInquery(@Valid @ModelAttribute InqueryForm inqueryForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "inquery/inqueryForm";
-        }
+        }//ラムダ式に変更
         Inquery inquery = new Inquery();
-        inquery.setMailAddress(inqueryForm.getMailAddress());
-        inquery.setName(inqueryForm.getName());
-        inquery.setOld(inqueryForm.getOld());
-        inquery.setAddress(inqueryForm.getAddress());
-        inquery.setClassification(inqueryForm.getClassification());
-        inquery.setDay(inqueryForm.getDay() != null ? inqueryForm.getDay() : String.valueOf(LocalDate.now()));
-        inquery.setUnread(inqueryForm.getUnread() != null ? inqueryForm.getUnread() : "1");
-        inquery.setBody(inqueryForm.getBody());
+        Optional.ofNullable(inqueryForm.getMailAddress()).ifPresent(inquery::setMailAddress);
+        Optional.ofNullable(inqueryForm.getName()).ifPresent(inquery::setName);
+        Optional.ofNullable(inqueryForm.getOld()).ifPresent(inquery::setOld);
+        Optional.ofNullable(inqueryForm.getAddress()).ifPresent(inquery::setAddress);
+        Optional.ofNullable(inqueryForm.getClassification()).ifPresent(inquery::setClassification);
+        inquery.setDay(Optional.ofNullable(inqueryForm.getDay()).orElseGet(() -> String.valueOf(LocalDate.now())));
+        inquery.setUnread(Optional.ofNullable(inqueryForm.getUnread()).orElse("1"));
+        Optional.ofNullable(inqueryForm.getBody()).ifPresent(inquery::setBody);
         inqueryService.save(inquery);
         return "redirect:/inquery";
     }
@@ -59,8 +60,9 @@ public class InqueryController {
 
     @GetMapping("/inquery/{id}/read")
     public String markAsRead(@PathVariable Long id) {
-        inqueryService.findById(id);
-        inqueryRepository.markAsUnread(id);
+        Optional.ofNullable(id)
+                .map(inqueryService::findById)
+                .ifPresent(inquery -> inqueryRepository.markAsUnread(inquery.getId()));
         return "inquery/list";
     }
 }
