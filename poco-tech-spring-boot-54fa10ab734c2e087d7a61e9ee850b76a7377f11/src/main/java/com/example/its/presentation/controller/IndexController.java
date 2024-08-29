@@ -3,10 +3,13 @@ package com.example.its.presentation.controller;
 
 import com.example.its.domain.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +35,14 @@ public class IndexController {
     @PostMapping("/login")
     public String processLogin(@RequestParam("username") String username,
                                @RequestParam("password") String password) {
-        Optional.ofNullable(session)
-                .filter(s -> s.getAttribute("user") == null)
-                .ifPresent(s -> s.setAttribute("user", new User(username, password)));
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+            Optional.ofNullable(session)
+                    .filter(s -> s.getAttribute("user") == null)
+                    .ifPresent(s -> s.setAttribute("user", user));
 
-        return "index"; // ログイン成功後のページにリダイレクト
+            return "index"; // ログイン成功後のページにリダイレクト
+
     }
 
     @GetMapping("/logout")
@@ -54,3 +60,5 @@ public class IndexController {
 
 
 }
+
+

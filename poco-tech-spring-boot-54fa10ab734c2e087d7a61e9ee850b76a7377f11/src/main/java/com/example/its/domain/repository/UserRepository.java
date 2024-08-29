@@ -18,6 +18,6 @@ public interface UserRepository {
     @Insert("insert into users (username, password, authority) values (#{username}, #{password}, #{authority})")
     void insert(String username, String password, String authority);
 
-    @Update("UPDATE users  SET password = #{newPassword} WHERE username = #{username}")
+    @Update("UPDATE users  SET password = #{password} WHERE username = #{username}")
     void updatePassword(@Param("username") String username, @Param("password") String password);
 }

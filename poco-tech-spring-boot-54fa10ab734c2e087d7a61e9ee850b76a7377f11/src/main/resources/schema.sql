@@ -10,8 +10,9 @@ unread VARCHAR(1)NOT NULL,
 body VARCHAR(1000) NOT NULL
 );
 
-create table users (
-username VARCHAR(50) not null,
-password VARCHAR(500) not null,
-authority enum('ADMIN', 'USER') not null
+CREATE TABLE users (
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(500) NOT NULL,
+    authority ENUM('ADMIN', 'USER') NOT NULL
+    delete_flag BOOLEAN DEFAULT FALSE NOT NULL
 );

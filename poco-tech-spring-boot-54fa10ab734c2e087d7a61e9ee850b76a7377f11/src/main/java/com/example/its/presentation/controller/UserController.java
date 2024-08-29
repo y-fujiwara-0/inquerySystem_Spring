@@ -37,9 +37,10 @@ public class UserController {
         return "redirect:/users";
     }
     @PostMapping("/{username}/password")
-    public String updatePassword(@PathVariable String username, @RequestParam String newPassword) {
-        userService.updatePassword(username, newPassword);
-        return "redirect:/users";
+    public String updatePassword(@PathVariable String username,
+                                 @RequestParam("Password") String Password) {
+        userService.updatePassword(username, Password);
+        return "redirect:/login";  // パスワード変更後にログインページにリダイレクト
     }
 
     @GetMapping("/passwordForm")

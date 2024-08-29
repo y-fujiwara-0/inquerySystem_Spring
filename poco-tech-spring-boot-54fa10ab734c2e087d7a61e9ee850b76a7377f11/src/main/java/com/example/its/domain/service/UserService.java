@@ -31,18 +31,19 @@ public class UserService  {
     @PreAuthorize("hasAuthority('ADMIN')")
     public void create(String username, String password, String authority) {
         var encodedPassword = Optional.ofNullable(password)
-                .map(passwordEncoder::encode)
                 .orElseThrow(() -> new IllegalArgumentException("Password cannot be null"));
-        userRepository.insert(username, encodedPassword, authority);
+        userRepository.insert(username, password, authority);
     }
 
     @Transactional
-    public void updatePassword(String username, String newPassword) {
+    public void updatePassword(String username, String password) {
         userRepository.findByUsername(username).ifPresent(user -> {
-            String encodedPassword = passwordEncoder.encode(newPassword);
+            String encodedPassword = passwordEncoder.encode(password);
             userRepository.updatePassword(username, encodedPassword);
         });
     }
 
     public void setUsername(String username){session.setAttribute("username",username);}
+
+    //パスワードアップデートするときにセッションデータを取得するコードをかく
 }

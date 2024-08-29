@@ -5,6 +5,6 @@ values ('suzu825193@gmail.com', 'aoi', '24', '愛知県春日井市岩成台１�
 
 
 //パスワードは（password1234）
-insert into users (username, password, authority) values ('admin', 'password1234', 'ADMIN');
-insert into users (username, password, authority) values ('user', 'password1234', 'USER');
+insert into users (username, password, authority) values ('admin1', 'password1234', 'ADMIN');
+insert into users (username, password, authority) values ('user', '3f4408d1e98cb3777fa65f7feaf5d38c4435d9e935cd62ff972288b1d0e6fe86b5392c50c6a6f799', 'USER');
 insert into users (username, password, authority) values ('admin', 'password1234', 'ADMIN');
