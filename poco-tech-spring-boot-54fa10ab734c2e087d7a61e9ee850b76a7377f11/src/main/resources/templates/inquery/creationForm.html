@@ -9,16 +9,16 @@
 <h1 class="mt-3">問い合わせ入力フォーム</h1>
 <form action="#" th:action="@{/inquery}" th:object="${inqueryForm}" method="post">
     <div>
-        <label for="mailAddress">メールアドレス:</label>
-        <input type="email" id="mailAddress" th:field="*{mailAddress}" />
+        <label for="mail_Address">メールアドレス:</label>
+        <input type="email" id="mail_Address" th:field="*{mail_Address}" />
     </div>
     <div>
         <label for="name">名前:</label>
         <input type="text" id="name" th:field="*{name}" />
     </div>
     <div>
-        <label for="old">年齢:</label>
-        <input type="text" id="old" th:field="*{old}" />
+        <label for="age">年齢:</label>
+        <input type="text" id="age" th:field="*{age}" />
     </div>
     <div>
         <label for="address">住所:</label>
@@ -35,8 +35,8 @@
         </select>
     </div>
     <div>
-        <label for="body">内容:</label>
-        <textarea id="body" th:field="*{body}"></textarea>
+        <label for="content">内容:</label>
+        <textarea id="content" th:field="*{content}"></textarea>
     </div>
     <button type="submit">送信</button>
 </form>

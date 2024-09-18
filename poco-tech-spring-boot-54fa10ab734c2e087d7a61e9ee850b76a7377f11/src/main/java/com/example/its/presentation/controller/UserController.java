@@ -1,7 +1,9 @@
 package com.example.its.presentation.controller;
 
+import com.example.its.domain.repository.UserRepository;
 import com.example.its.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    @Autowired
+    private UserRepository userRepository;
+
 
     @GetMapping
     public String showList(Model model) {
@@ -52,5 +57,11 @@ public class UserController {
         };
         addAttributes.run(); // 属性設定実行
         return "users/passwordForm";
+    }
+
+    @PostMapping("/delete")
+    public String deleteUser(@RequestParam("username") String username) {
+//        userRepository.updateDeleteFlag(username, true);
+        return "redirect:/users"; // ユーザー一覧ページにリダイレクト
     }
 }

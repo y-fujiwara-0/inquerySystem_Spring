@@ -1,18 +1,24 @@
-create table inquerys (
-id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-mailAddress VARCHAR(50) NOT NULl,
-name VARCHAR(30) NOT NULl,
-old VARCHAR(3) NOT NULL,
-address VARCHAR(200) NOT NULL,
-classification VARCHAR(3) NOT NULL,
-day VARCHAR(50) NOT NULL,
-unread VARCHAR(1)NOT NULL,
-body VARCHAR(1000) NOT NULL
+CREATE TABLE IF NOT EXISTS inquerys (
+inquery_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '問い合わせID',
+mail_address VARCHAR(50) NOT NULL COMMENT 'メールアドレス',
+name VARCHAR(30) NOT NULL COMMENT '名前',
+age INT NOT NULL COMMENT '年齢',
+address VARCHAR(200) NOT NULL COMMENT '住所',
+classification smallint NOT NULL COMMENT '問い合わせ種類',
+registration_at datetime DEFAULT NULL COMMENT '問い合わせ日時',
+reply_at datetime DEFAULT NULL COMMENT '登録日時',
+is_readed smallint NOT NULL DEFAULT '0' COMMENT '返信日時',
+content VARCHAR(1000) NOT NULL COMMENT '本文',
+created_at datetime NOT NULL COMMENT '作成日時',
+updated_at datetime DEFAULT NULL COMMENT '更新日時'
 );
 
-CREATE TABLE users (
-    username VARCHAR(50) NOT NULL,
-    password VARCHAR(500) NOT NULL,
-    authority ENUM('ADMIN', 'USER') NOT NULL
-    delete_flag BOOLEAN DEFAULT FALSE NOT NULL
+CREATE TABLE IF NOT EXISTS users (
+    user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'ユーザーID',
+    username VARCHAR(50) NOT NULL COMMENT 'ユーザー名',
+    password VARCHAR(500) NOT NULL COMMENT 'パスワード',
+    authority smallint NOT NULL COMMENT '権限',
+    is_deleted smallint NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+    created_at datetime NOT NULL COMMENT '作成日時',
+    updated_at datetime NOT NULL COMMENT '更新日時'
 );

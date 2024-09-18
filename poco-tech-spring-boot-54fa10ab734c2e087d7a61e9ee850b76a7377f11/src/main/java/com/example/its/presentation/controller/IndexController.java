@@ -32,6 +32,7 @@ public class IndexController {
         return "login";
     }
 
+    /*使用していない
     @PostMapping("/login")
     public String processLogin(@RequestParam("username") String username,
                                @RequestParam("password") String password) {
@@ -39,12 +40,12 @@ public class IndexController {
         String hashedPassword = passwordEncoder.encode(password);
             Optional.ofNullable(session)
                     .filter(s -> s.getAttribute("user") == null)
-                    .ifPresent(s -> s.setAttribute("user", user));
+                    .ifPresent(s -> s.setAttribute("user", new User(username, hashedPassword)));
 
             return "index"; // ログイン成功後のページにリダイレクト
 
     }
-
+*/
     @GetMapping("/logout")
     public String showLogoutForm(HttpServletRequest request) {
         Optional.ofNullable(request.getSession(false))

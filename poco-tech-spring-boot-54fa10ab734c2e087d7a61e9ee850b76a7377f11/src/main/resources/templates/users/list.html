@@ -17,9 +17,14 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${userList}">
+    <tr th:each="user : ${userList}" th:if="${!user.deleteflag}">
         <th th:text="${user.username}">(username)</th>
         <th th:text="${user.authority}">(authority)</th>
+        <th>
+            <form th:action="@{/users/delete}" method="post">
+                <input type="hidden" name="username" th:value="${user.username}">
+                <button type="submit" class="btn btn-danger">削除</button>
+            </form>
     </tr>
     </tbody>
 </table>

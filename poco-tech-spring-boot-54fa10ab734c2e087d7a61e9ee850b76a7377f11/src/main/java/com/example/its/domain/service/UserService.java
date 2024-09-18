@@ -13,8 +13,6 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
-import static org.apache.tomcat.jni.SSL.setPassword;
-
 @Service
 @RequiredArgsConstructor
 public class UserService  {
@@ -30,17 +28,40 @@ public class UserService  {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     public void create(String username, String password, String authority) {
-        var encodedPassword = Optional.ofNullable(password)
+        // パスワードの検証とエンコード
+        String encodedPassword = Optional.ofNullable(password)
+                .map(passwordEncoder::encode)
                 .orElseThrow(() -> new IllegalArgumentException("Password cannot be null"));
-        userRepository.insert(username, password, authority);
+
+        User.Authority userAuthority;
+        try {
+            userAuthority = User.Authority.valueOf(authority);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid authority value: " + authority);
+        }
+        // ユーザーオブジェクトを作成
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(encodedPassword);
+        user.setAuthority(Integer.valueOf(authority));
+
+        // ユーザーを挿入
+        userRepository.insert(user);
     }
 
     @Transactional
     public void updatePassword(String username, String password) {
-        userRepository.findByUsername(username).ifPresent(user -> {
+        // ユーザーを取得
+        Optional<User> optionalUser = userRepository.findByUsernameAndDeleteflagFalse(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            // パスワードをエンコード
             String encodedPassword = passwordEncoder.encode(password);
-            userRepository.updatePassword(username, encodedPassword);
-        });
+            // エンティティのパスワードを更新
+            user.setPassword(encodedPassword);
+            // 更新処理
+            userRepository.updatePassword(user);
+        }
     }
 
     public void setUsername(String username){session.setAttribute("username",username);}
