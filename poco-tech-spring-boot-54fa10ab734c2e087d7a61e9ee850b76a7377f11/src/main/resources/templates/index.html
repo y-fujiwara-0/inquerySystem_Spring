@@ -11,7 +11,7 @@
 
 <ul>
     <li><a href="./inquery/list.html" th:href="@{/inquery}">問い合わせ一覧</a></li>
-    <li sec:authorize="hasAuthority('ADMIN')"><a href="./users/list.html" th:href="@{/users}">ユーザー一覧</a></li>
+    <li sec:authorize="hasAuthority('1')"><a href="./users/list.html" th:href="@{/users}">ユーザー一覧</a></li>
     <li><a href="./users/passwordForm.html" th:href="@{/users/passwordForm}">パスワード変更</a></li>
     <li><a href="./logout.html" th:href="@{/logout}">ログアウト</a></li>
 </ul>

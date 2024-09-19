@@ -21,7 +21,7 @@
     </thead>
     <tbody>
     <tr th:each="inquery : ${inqueryList}">
-        <td th:text="${inquery.id}">(id)</td>
+        <td th:text="${inquery.inquery_id}">(inquery_id)</td>
         <td>
             <span th:switch="${inquery.classification}">
                 <span th:case="'1'">コースについて</span>
@@ -32,10 +32,10 @@
                 <span th:case="*">未知の分類</span>
             </span>
         </td>
-        <td><a href="./detail.html" th:href="@{/inquery/{id}(id=${inquery.id})}" th:text="${inquery.mail_Address}"></a></td>
+        <td><a href="./detail.html" th:href="@{/inquery/{id}(id=${inquery.inquery_id})}" th:text="${inquery.mail_Address}"></a></td>
         <td th:text="${#strings.length(inquery.content) > 10 ? #strings.substring(inquery.content, 0, 10) : inquery.content} + '...'"></td>
-        <td th:text="${inquery.inquery_at}"></td>
-        <td th:text="${inquery.unread == '1' ? '未読' : '既読'}"></td>
+        <td th:text="${inquery.registration_At}"></td>
+        <td th:text="${inquery.is_readed == '1' ? '未読' : '既読'}"></td>
     </tr>
     </tbody>
 </table>

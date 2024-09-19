@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -40,14 +41,24 @@ public class InqueryController {
             return "inquery/inqueryForm";
         }//ラムダ式に変更
         Inquery inquery = new Inquery();
-        Optional.ofNullable(inqueryForm.getMailAddress()).ifPresent(inquery::setMailAddress);
+        Optional.ofNullable(inqueryForm.getMailAddress()).ifPresent(inquery::setMail_Address);
         Optional.ofNullable(inqueryForm.getName()).ifPresent(inquery::setName);
-        Optional.ofNullable(inqueryForm.getOld()).ifPresent(inquery::setOld);
+        Optional.ofNullable(inqueryForm.getOld())
+                .filter(old -> !old.isEmpty())  // 空文字を除外
+                .ifPresent(old -> {
+                    try {
+                        int age = Integer.parseInt(old);  // StringをIntegerに変換
+                        inquery.setAge(age);
+                    } catch (NumberFormatException e) {
+                        // 変換に失敗した場合の処理（例: ログ出力）
+                        System.err.println("Invalid number format: " + old);
+                    }
+                });
         Optional.ofNullable(inqueryForm.getAddress()).ifPresent(inquery::setAddress);
         Optional.ofNullable(inqueryForm.getClassification()).ifPresent(inquery::setClassification);
-        inquery.setDay(Optional.ofNullable(inqueryForm.getDay()).orElseGet(() -> String.valueOf(LocalDate.now())));
-        inquery.setUnread(Optional.ofNullable(inqueryForm.getUnread()).orElse("1"));
-        Optional.ofNullable(inqueryForm.getBody()).ifPresent(inquery::setBody);
+        inquery.setRegistration_At(LocalDateTime.parse(Optional.ofNullable(inqueryForm.getDay()).orElseGet(() -> String.valueOf(LocalDate.now()))));
+        inquery.setIs_readed(Optional.ofNullable(inqueryForm.getUnread()).orElse("1"));
+        Optional.ofNullable(inqueryForm.getBody()).ifPresent(inquery::setContent);
         inqueryService.save(inquery);
         return "redirect:/inquery";
     }
@@ -62,7 +73,7 @@ public class InqueryController {
     public String markAsRead(@PathVariable Long id) {
         Optional.ofNullable(id)
                 .map(inqueryService::findById)
-                .ifPresent(inquery -> inqueryRepository.markAsUnread(inquery.getId()));
+                .ifPresent(inquery -> inqueryRepository.markAsUnread(inquery.getInquery_id()));
         return "inquery/list";
     }
 }
