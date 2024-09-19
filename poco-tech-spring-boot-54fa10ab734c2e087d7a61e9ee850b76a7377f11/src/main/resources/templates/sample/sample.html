@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	  th:replace="~{fragments/layout :: layout(~{::title}, ~{::body})}">
+<head>
+	<meta charset="UTF-8">
+	<title>サンプル</title>
+	<link rel="stylesheet" th:href="@{/assets/css/style.css}">
+</head>
+<body>
+<main class="l-main">
+	<div class="p-content">
+		<div class="p-content__inner">
+			<div class="">
+				<h2 class="c-title">サンプルページ</h2>
+			</div>
+			<div class="p-body">
+				<div th:replace="~{/fragments/common/page :: page(${samplePage})}"></div>
+				<table border="1">
+					<tr>
+						<th>ID</th>
+						<th>名前</th>
+						<th>作成日時</th>
+					</tr>
+					<tr th:each="sample : ${samplePage.content}">
+						<td th:text="${sample.sampleId}">1</td>
+						<td th:text="${sample.name}">サンプル名</td>
+						<td th:text="${#temporals.format(sample.createdAt, 'yyyy/MM/dd HH:mm')}">2023/01/01 00:00:00</td>
+					</tr>
+				</table>
+				<div th:replace="~{/fragments/common/pagination :: pagination(${samplePage}, '/sample')}"></div>
+			</div>
+		</div>
+	</div>
+</main>
+</body>
+</html>

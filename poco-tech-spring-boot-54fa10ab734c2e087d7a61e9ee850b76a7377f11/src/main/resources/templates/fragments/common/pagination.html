@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="pagination(page, url)"
+		  th:with="currentPage = ${page.number + 1}, lastPage = ${page.totalPages}">
+	<div class="p-pager">
+		<div class="p-pager__wrap">
+			<div class="p-pager__back">
+				<a class="p-pager__back-btn" th:unless="${page.first}" th:href="@{${url}(page=${page.number - 1})}"></a>
+			</div>
+			<div class="p-pager__body">
+				<ul class="p-pager__list">
+					<span th:if="${page.first}">
+						<li class="p-pager__item is-current">
+							<a href="" class="p-pager__link">1</a>
+						</li>
+					</span>
+					<span th:unless="${page.first}">
+						<li class="p-pager__item">
+							<a href="" class="p-pager__link" th:href="@{${url}(page=0)}">1</a>
+						</li>
+					</span>
+					<span th:if="${currentPage >= 5}">
+						<li class="p-pager__item">
+							<span class="p-pager__link">…</span>
+						</li>
+					</span>
+					<span th:if="${currentPage >= 4}">
+						<li class="p-pager__item" th:classappend="${currentPage eq (page.number - 2)} ? 'is-current'">
+							<a href="" class="p-pager__link" th:text="${currentPage - 2}" th:href="@{${url}(page=${page.number - 2})}">3</a>
+						</li>
+					</span>
+					<span th:if="${currentPage >= 3}">
+						<li class="p-pager__item" th:classappend="${currentPage eq (page.number - 1)} ? 'is-current'">
+							<a href="" class="p-pager__link" th:text="${currentPage - 1}" th:href="@{${url}(page=${page.number - 1})}">4</a>
+						</li>
+					</span>
+					<span th:if="${currentPage >= 2}">
+						<li class="p-pager__item" th:classappend="${currentPage} ? 'is-current'">
+							<span href="" class="p-pager__link" th:text="${currentPage}">5</span>
+						</li>
+					</span>
+					<span th:if="${currentPage < lastPage}">
+						<li class="p-pager__item">
+							<a href="" class="p-pager__link" th:text="${currentPage + 1}" th:href="@{${url}(page=${page.number + 1})}">6</a>
+						</li>
+					</span>
+					<span th:if="${currentPage + 1 < lastPage}">
+						<li class="p-pager__item">
+							<a href="" class="p-pager__link" th:text="${currentPage + 2}" th:href="@{${url}(page=${page.number + 2})}">7</a>
+						</li>
+					</span>
+					<span th:if="${currentPage + 3 < lastPage}">
+						<li class="p-pager__item">
+							<span class="p-pager__link">…</span>
+						</li>
+					</span>
+					<span th:if="${currentPage + 2 < lastPage}">
+						<li class="p-pager__item">
+							<a href="" class="p-pager__link" th:text="${lastPage}" th:href="@{${url}(page=${page.totalPages - 1})}">9</a>
+						</li>
+					</span>
+				</ul>
+			</div>
+			<div class="p-pager__prev">
+				<a href="" class="p-pager__prev-btn" th:unless="${page.last}" th:href="@{${url}(page=${page.number + 1})}"></a>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>
