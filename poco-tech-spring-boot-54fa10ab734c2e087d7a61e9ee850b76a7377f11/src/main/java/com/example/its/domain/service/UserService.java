@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,32 +22,35 @@ public class UserService  {
     @Autowired
     HttpSession session;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('1')")
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
     @PreAuthorize("hasAuthority('1')")
-    public void create(String username, String password, String authority) {
+    public User create(String username, String password, String authority) {
         // パスワードの検証とエンコード
         String encodedPassword = Optional.ofNullable(password)
                 .map(passwordEncoder::encode)
                 .orElseThrow(() -> new IllegalArgumentException("Password cannot be null"));
 
-        User.Authority userAuthority;
-        try {
-            userAuthority = User.Authority.valueOf(authority);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid authority value: " + authority);
-        }
+        // 現在時刻を作成日時と更新日時として使用
+        LocalDateTime now = LocalDateTime.now();
+
         // ユーザーオブジェクトを作成
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(encodedPassword);
-        user.setAuthority(authority);
+        User user = new User(
+                null,       // ユーザーID
+                username,      // ユーザー名
+                encodedPassword,// パスワード
+                authority,     // 権限
+                0,             // isDeleted（0は削除されていないことを意味する）
+                now,           // 作成日時
+                now            // 更新日時
+        );
 
         // ユーザーを挿入
         userRepository.insert(user);
+        return user;
     }
 
     @Transactional
@@ -57,8 +61,16 @@ public class UserService  {
             User user = optionalUser.get();
             // パスワードをエンコード
             String encodedPassword = passwordEncoder.encode(password);
-            // エンティティのパスワードを更新
-            user.setPassword(encodedPassword);
+            // 新しいUserオブジェクトを作成してパスワードを更新
+            User updatedUser = new User(
+                    user.getUserId(),          // 既存のuserId
+                    user.getUsername(),        // 既存のusername
+                    encodedPassword,           // エンコードされた新しいパスワード
+                    user.getAuthority(),       // 既存のauthority
+                    user.getIsDeleted(),       // 既存のisDeleted
+                    user.getCreatedAt(),       // 既存のcreatedAt
+                    LocalDateTime.now()        // 更新日時を現在の時間に設定
+            );
             // 更新処理
             userRepository.updatePassword(user);
         }
@@ -67,4 +79,21 @@ public class UserService  {
     public void setUsername(String username){session.setAttribute("username",username);}
 
     //パスワードアップデートするときにセッションデータを取得するコードをかく
+
+    // ユーザーの権限を更新するメソッド
+//    public void updateUserAuthority(Long userId, String newAuthority) {
+//        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+//
+//        // 新しいUserオブジェクトを作成して、権限を更新
+//        User updatedUser = new User(
+//                user.getUsername(),
+//                user.getPassword(),
+//                newAuthority,   // 新しい権限
+//                user.getIsDeleted(),
+//                user.getCreatedAt(),
+//                LocalDateTime.now() // 更新日時を現在の時間に設定
+//        );
+//
+//        userRepository.save(updatedUser);
+//    }
 }

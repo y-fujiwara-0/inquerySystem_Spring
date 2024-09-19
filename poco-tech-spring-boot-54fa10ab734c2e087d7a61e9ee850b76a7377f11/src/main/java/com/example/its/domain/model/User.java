@@ -1,42 +1,39 @@
 package com.example.its.domain.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.seasar.doma.*;
 
 import java.time.LocalDateTime;
 
 @Entity(immutable = true)
-@Table(name = "users")  // テーブル名が「users」であればこのアノテーションは任意
+@Table(name = "users")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userId;
+    private final Long userId;
 
-    private String username;
-
-    private String password;
-
-    private String authority;
+    private final String username;
+    private final String password;
+    private final String authority;
 
     @Column(name = "is_deleted")
-    private Integer isDeleted;
+    private final Integer isDeleted;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;// 作成日時
+    private final LocalDateTime createdAt;
+
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;  // 更新日時
+    private final LocalDateTime updatedAt;
 
     public enum Authority{
         ADMIN,
         USER,
     }
 
-    public User(String username, String password, String authority, Integer isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(Long userId,String username, String password, String authority, Integer isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.userId = null;  // オートインクリメントにより、自動で設定
         this.username = username;
         this.password = password;
         this.authority = authority;
@@ -44,4 +41,5 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
 }

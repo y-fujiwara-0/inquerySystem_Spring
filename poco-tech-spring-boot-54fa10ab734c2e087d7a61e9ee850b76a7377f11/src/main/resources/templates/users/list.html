@@ -17,7 +17,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${userList}" th:if="${!user.deleteflag}">
+    <tr th:each="user : ${userList}" th:if="${user.isDeleted == 0}">
         <th th:text="${user.username}">(username)</th>
         <th th:text="${user.authority}">(authority)</th>
         <th>
