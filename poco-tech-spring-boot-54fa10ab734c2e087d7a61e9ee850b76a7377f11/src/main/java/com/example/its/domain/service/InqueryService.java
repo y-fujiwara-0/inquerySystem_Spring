@@ -34,22 +34,22 @@ public class InqueryService {
     }
 
     // 既読処理
-    public void markAsRead(Long id) {
-        updateUnreadStatus(id, "0");
+    public void markAsRead(Long inquery_id) {
+        updateUnreadStatus(inquery_id, "0");
     }
 
     // 未読処理
-    public void markAsUnread(Long id) {
-        updateUnreadStatus(id, "1");
+    public void markAsUnread(Long inquery_id) {
+        updateUnreadStatus(inquery_id, "1");
     }
 
     // 共通処理
     private void updateUnreadStatus(Long id, String status) {
         inqueryRepository.save(Optional.ofNullable(findById(id))
                 .map(inquery -> {
-                    inquery.setUnread(status);
+                    inquery.setIs_readed(status);
                     return inquery;
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Inquiry not found with id: " + id)));
+                .orElseThrow(() -> new IllegalArgumentException("Inquiry not found with inquery_id: " + id)));
     }
 }
