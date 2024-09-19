@@ -26,7 +26,7 @@ public class UserService  {
         return userRepository.findAll();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('1')")
     public void create(String username, String password, String authority) {
         // パスワードの検証とエンコード
         String encodedPassword = Optional.ofNullable(password)
@@ -43,7 +43,7 @@ public class UserService  {
         User user = new User();
         user.setUsername(username);
         user.setPassword(encodedPassword);
-        user.setAuthority(Integer.valueOf(authority));
+        user.setAuthority(authority);
 
         // ユーザーを挿入
         userRepository.insert(user);

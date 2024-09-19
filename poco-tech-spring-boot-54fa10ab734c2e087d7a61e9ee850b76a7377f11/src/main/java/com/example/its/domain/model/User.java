@@ -21,7 +21,7 @@ public class User {
 
     private String password;
 
-    private Integer authority;
+    private String authority;
 
     @Column(name = "is_deleted")
     private Integer isDeleted;
@@ -36,7 +36,7 @@ public class User {
         USER,
     }
 
-    public User(String username, String password, Integer authority, Integer isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(String username, String password, String authority, Integer isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.username = username;
         this.password = password;
         this.authority = authority;

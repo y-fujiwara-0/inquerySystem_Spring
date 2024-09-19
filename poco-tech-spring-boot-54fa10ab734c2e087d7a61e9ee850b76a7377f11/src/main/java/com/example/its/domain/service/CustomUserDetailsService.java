@@ -26,29 +26,18 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<User> userOptional = userRepository.findByUsernameAndDeleteflagFalse(username);
         User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        User.Authority authorityEnum;
-        try {
-            authorityEnum = User.Authority.values()[user.getAuthority()]; // Convert Integer to Enum
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Invalid authority value: " + user.getAuthority());
-        }
+        // Get the authority as a String directly
+        String authority = user.getAuthority();
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority(authorityEnum.name()))
+                Collections.singletonList(new SimpleGrantedAuthority(authority)) // Use String authority
         );
     }
 
-    private List<GrantedAuthority> toGrantedAuthorityList(Integer authority) {
-        User.Authority authorityEnum;
-
-        try {
-            authorityEnum = User.Authority.values()[authority]; // Convert Integer to Enum
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Invalid authority value: " + authority);
-        }
-        
-        return Collections.singletonList(new SimpleGrantedAuthority(authorityEnum.name()));
+    private List<GrantedAuthority> toGrantedAuthorityList(String authority) {
+        // Convert String authority directly
+        return Collections.singletonList(new SimpleGrantedAuthority(authority));
     }
 }
