@@ -5,6 +5,7 @@ import com.example.its.domain.model.Inquery;
 import com.example.its.domain.service.InqueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -75,5 +77,20 @@ public class InqueryController {
                 .map(inqueryService::findById)
                 .ifPresent(inquery -> inqueryRepository.markAsUnread(inquery.getInquery_id()));
         return "inquery/list";
+    }
+
+    @GetMapping("/search")
+    public String inquery_search(@RequestParam(required = false) String keyword,
+                                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
+                                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
+                                 Model model) {
+        // サービスを使って問い合わせを検索
+        List<Inquery> inqueries = inqueryService.inquery_search(keyword, dateFrom, dateTo);
+
+        // モデルに検索結果を追加
+        model.addAttribute("inqueryList", inqueries);
+
+        // 問い合わせ一覧ページを返す
+        return "inquery/list";  // 問い合わせ一覧ページのビュー名
     }
 }

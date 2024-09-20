@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,10 @@ public class InqueryService {
 
     public List<Inquery> findAll() {
         return inqueryRepository.findAll();
+    }
+
+    public List<Inquery> inquery_search(String keyword, LocalDate dateFrom, LocalDate dateTo) {
+        return inqueryRepository.inquery_search(keyword, dateFrom, dateTo);
     }
 
 

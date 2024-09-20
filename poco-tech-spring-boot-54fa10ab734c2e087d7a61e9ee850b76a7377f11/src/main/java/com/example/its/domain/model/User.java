@@ -13,7 +13,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private final Long userId;
-
     private final String username;
     private final String password;
     private final String authority;
@@ -26,11 +25,6 @@ public class User {
 
     @Column(name = "updated_at")
     private final LocalDateTime updatedAt;
-
-    public enum Authority{
-        ADMIN,
-        USER,
-    }
 
     public User(Long userId,String username, String password, String authority, Integer isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.userId = null;  // オートインクリメントにより、自動で設定
