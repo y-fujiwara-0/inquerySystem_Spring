@@ -22,3 +22,9 @@ CREATE TABLE IF NOT EXISTS users (
     created_at datetime NOT NULL COMMENT '作成日時',
     updated_at datetime NOT NULL COMMENT '更新日時'
 );
+
+CREATE TABLE IF NOT EXISTS sample COMMENT 'サンプル'(
+    sample_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'サンプルID',
+    name VARCHAR(50) NOT NULL COMMENT 'サンプル名',
+    created_at datetime NOT NULL COMMENT '作成日時'
+);

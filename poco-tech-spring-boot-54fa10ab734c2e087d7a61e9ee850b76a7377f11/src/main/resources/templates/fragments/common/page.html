@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="page(page)">
+	<p class="p-pager__page">
+		<span th:text="|${page.totalElements == 0 ? 0 : page.size * page.number + 1}-${page.size * page.number + page.numberOfElements} / ${page.totalElements}件|">1-10 / 10件</span>
+	</p>
+</th:block>
+</html>
