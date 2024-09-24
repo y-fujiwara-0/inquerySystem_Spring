@@ -1,7 +1,6 @@
 package com.example.its.domain.repository;
 
 import com.example.its.domain.model.Inquery;
-import com.example.its.domain.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.transaction.annotation.Transactional;
 

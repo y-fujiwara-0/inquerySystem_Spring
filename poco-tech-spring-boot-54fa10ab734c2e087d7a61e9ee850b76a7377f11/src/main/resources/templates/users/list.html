@@ -8,6 +8,24 @@
 <h1 class="mt-3">ユーザー一覧</h1>
 <a href="../index.html" th:href="@{/}">トップページ</a>
 <a href="../creationForm.html" th:href="@{/users/creationForm}">作成</a>
+
+<!-- 検索フォーム -->
+<form method="GET" th:action="@{/users/search}">
+    <div class="form-group">
+        <label for="username">ユーザー名検索:</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="ユーザー名を入力">
+    </div>
+    <div class="form-group">
+        <label for="authority">権限検索:</label>
+        <select id="authority" name="authority" class="form-control">
+            <option value="">すべて</option>
+            <option value="ADMIN">ADMIN</option>
+            <option value="USER">USER</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">検索</button>
+</form>
+
 <table class="table">
     <thead>
     <tr>
@@ -17,12 +35,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${userList}" th:if="${user.isDeleted == 0}">
-        <th th:text="${user.username}">(username)</th>
-        <th th:text="${user.authority}">(authority)</th>
+    <tr th:each="users : ${userList}" th:if="${users.isDeleted == 0}">
+        <th th:text="${users.username}">(username)</th>
+        <th th:text="${users.authority}">(authority)</th>
         <th>
             <form th:action="@{/users/delete}" method="post">
-                <input type="hidden" name="username" th:value="${user.username}">
+                <input type="hidden" name="username" th:value="${users.username}">
                 <button type="submit" class="btn btn-danger">削除</button>
             </form>
     </tr>

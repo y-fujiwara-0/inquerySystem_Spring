@@ -1,7 +1,6 @@
 package com.example.its.domain.service;
 
-import com.example.its.domain.model.CustomUserDetails;
-import com.example.its.domain.model.User;
+import com.example.its.domain.model.Users;
 import com.example.its.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,15 +22,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findByUsernameAndDeleteflagFalse(username);
-        User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Optional<Users> userOptional = userRepository.findByUsernameAndDeleteflagFalse(username);
+        Users users = userOptional.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         // Get the authority as a String directly
-        String authority = user.getAuthority();
+        String authority = users.getAuthority();
 
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
+                users.getUsername(),
+                users.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority(authority)) // Use String authority
         );
     }

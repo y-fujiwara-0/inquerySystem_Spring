@@ -1,6 +1,6 @@
 package com.example.its.domain.service;
 
-import com.example.its.domain.model.User;
+import com.example.its.domain.model.Users;
 import com.example.its.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,12 @@ public class UserService  {
     HttpSession session;
 
     @PreAuthorize("hasAuthority('1')")
-    public List<User> findAll() {
+    public List<Users> findAll() {
         return userRepository.findAll();
     }
 
     @PreAuthorize("hasAuthority('1')")
-    public User create(String username, String password, String authority) {
+    public Users create(String username, String password, String authority) {
         // パスワードの検証とエンコード
         String encodedPassword = Optional.ofNullable(password)
                 .map(passwordEncoder::encode)
@@ -38,7 +38,7 @@ public class UserService  {
         LocalDateTime now = LocalDateTime.now();
 
         // ユーザーオブジェクトを作成
-        User user = new User(
+        Users users = new Users(
                 null,       // ユーザーID
                 username,      // ユーザー名
                 encodedPassword,// パスワード
@@ -49,30 +49,30 @@ public class UserService  {
         );
 
         // ユーザーを挿入
-        userRepository.insert(user);
-        return user;
+        userRepository.insert(users);
+        return users;
     }
 
     @Transactional
     public void updatePassword(String username, String password) {
         // ユーザーを取得
-        Optional<User> optionalUser = userRepository.findByUsernameAndDeleteflagFalse(username);
+        Optional<Users> optionalUser = userRepository.findByUsernameAndDeleteflagFalse(username);
         if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
+            Users users = optionalUser.get();
             // パスワードをエンコード
             String encodedPassword = passwordEncoder.encode(password);
             // 新しいUserオブジェクトを作成してパスワードを更新
-            User updatedUser = new User(
-                    user.getUserId(),          // 既存のuserId
-                    user.getUsername(),        // 既存のusername
+            Users updatedUsers = new Users(
+                    users.getUserId(),          // 既存のuserId
+                    users.getUsername(),        // 既存のusername
                     encodedPassword,           // エンコードされた新しいパスワード
-                    user.getAuthority(),       // 既存のauthority
-                    user.getIsDeleted(),       // 既存のisDeleted
-                    user.getCreatedAt(),       // 既存のcreatedAt
+                    users.getAuthority(),       // 既存のauthority
+                    users.getIsDeleted(),       // 既存のisDeleted
+                    users.getCreatedAt(),       // 既存のcreatedAt
                     LocalDateTime.now()        // 更新日時を現在の時間に設定
             );
             // 更新処理
-            userRepository.updatePassword(user);
+            userRepository.updatePassword(users);
         }
     }
 

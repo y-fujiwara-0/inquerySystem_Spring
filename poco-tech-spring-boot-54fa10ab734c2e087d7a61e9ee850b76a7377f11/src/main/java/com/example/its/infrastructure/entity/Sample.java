@@ -1,6 +1,5 @@
 package com.example.its.infrastructure.entity;
 
-import lombok.Data;
 import java.time.LocalDateTime;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
@@ -10,24 +9,72 @@ import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 
 /**
- * サンプルエンティティ
+ * Sample Entity
  */
 @Entity
-@Table(name = "sample")
-@Data
+@Table(name = "SAMPLE")
 public class Sample {
 
-	/** サンプルID */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "sample_id")
-	private Long sampleId;
+    /** sampleId */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SAMPLE_ID")
+    Long sampleId;
 
-	/** サンプル名 */
-	@Column(name = "name")
-	private String name;
+    /** name */
+    @Column(name = "NAME")
+    String name;
 
-	/** 作成日時 */
-	@Column(name = "created_at")
-	private LocalDateTime createdAt;
+    /** createdAt */
+    @Column(name = "CREATED_AT")
+    LocalDateTime createdAt;
+
+    /**
+     * Returns the sampleId.
+     * @return the sampleId
+     */
+    public Long getSampleId() {
+        return sampleId;
+    }
+
+    /**
+     * Sets the sampleId.
+     * @param sampleId the sampleId
+     */
+    public void setSampleId(Long sampleId) {
+        this.sampleId = sampleId;
+    }
+
+    /**
+     * Returns the name.
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name.
+     * @param name the name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Returns the createdAt.
+     * @return the createdAt
+     */
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    /**
+     * Sets the createdAt.
+     * @param createdAt the createdAt
+     */
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }

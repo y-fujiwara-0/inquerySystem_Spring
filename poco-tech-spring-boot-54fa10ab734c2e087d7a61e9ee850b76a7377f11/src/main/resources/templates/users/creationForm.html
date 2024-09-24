@@ -33,7 +33,7 @@
             <div class="form-check" th:classappend="${#fields.hasErrors('authority')} ? is-invalid">
                 <input class="form-check-input" type="radio" id="authorityUserRadio" th:field="*{authority}"
                        value="USER" th:classappend="${#fields.hasErrors('authority')} ? is-invalid">
-                <label class="form-check-label" for="authorityAdminRadio">USER</label>
+                <label class="form-check-label" for="authorityUserRadio">USER</label>
                 <p class="invalid-feedback" th:if="${#fields.hasErrors('authority')}" th:errors="*{authority}">
                     (errors)</p>
             </div>
