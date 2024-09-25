@@ -25,7 +25,7 @@ public interface UserRepository {
 
     @Update
     @Transactional
-    Result<Users> updatePassword(Users users);
+    Users updatePassword(Users users);
 
     @Update
     @Transactional

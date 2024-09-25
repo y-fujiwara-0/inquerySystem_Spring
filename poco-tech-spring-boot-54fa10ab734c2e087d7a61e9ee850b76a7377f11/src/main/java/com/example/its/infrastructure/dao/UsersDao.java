@@ -25,7 +25,7 @@ public interface UsersDao {
     @Insert(sqlFile = true)
     Result<Users> insert(Users users);
 
-    @Update
+    @Update(sqlFile = true)
     @Transactional
     Result<Users> updatePassword(Users users);
 

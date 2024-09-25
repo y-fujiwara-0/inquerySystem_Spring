@@ -46,8 +46,14 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Result<Users> updatePassword(Users users) {
-        return null;
+    public Users updatePassword(Users users) {
+        try {
+            com.example.its.infrastructure.entity.Users entity = usersMapper.mapToEntity(users);
+            usersDao.updatePassword(entity);
+            return usersMapper.mapToDomain(entity);
+        }catch (Exception e) {
+            throw new RuntimeException("Insert failed: " + e.getMessage());
+        }
     }
 
     @Override

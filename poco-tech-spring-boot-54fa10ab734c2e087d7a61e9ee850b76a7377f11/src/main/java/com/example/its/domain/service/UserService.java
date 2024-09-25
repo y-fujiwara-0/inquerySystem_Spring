@@ -22,11 +22,13 @@ public class UserService  {
     @Autowired
     HttpSession session;
 
+    //ユーザー一覧検索
     @PreAuthorize("hasAuthority('1')")
     public List<Users> findAll() {
         return userRepository.findAll();
     }
 
+    //ユーザー新規作成
     @PreAuthorize("hasAuthority('1')")
     public Users create(String username, String password, String authority) {
         // パスワードの検証とエンコード
@@ -53,6 +55,7 @@ public class UserService  {
         return users;
     }
 
+    //ユーザーアップデート
     @Transactional
     public void updatePassword(String username, String password) {
         // ユーザーを取得
@@ -72,7 +75,7 @@ public class UserService  {
                     LocalDateTime.now()        // 更新日時を現在の時間に設定
             );
             // 更新処理
-            userRepository.updatePassword(users);
+            userRepository.updatePassword(updatedUsers);
         }
     }
 
