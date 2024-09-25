@@ -1,6 +1,7 @@
 package com.example.its.domain.repository;
 
 import com.example.its.domain.model.Users;
+import org.apache.ibatis.annotations.Param;
 import org.seasar.doma.*;
 import org.seasar.doma.jdbc.Result;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,4 +31,8 @@ public interface UserRepository {
     @Update
     @Transactional
     Result<Users> updateDeleteFlag(Users users);
+
+    @Select
+    List<Users> user_search(@Param("username") String username, @Param("authority") String authority);
+
 }

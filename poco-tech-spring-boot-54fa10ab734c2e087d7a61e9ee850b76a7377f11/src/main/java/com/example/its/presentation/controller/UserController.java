@@ -1,9 +1,13 @@
 package com.example.its.presentation.controller;
 
+import com.example.its.domain.model.Inquery;
+import com.example.its.domain.model.Users;
 import com.example.its.domain.repository.UserRepository;
 import com.example.its.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.h2.engine.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -11,6 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -26,6 +33,18 @@ public class UserController {
     public String showList(Model model) {
         model.addAttribute("userList", userService.findAll());
         return "users/list";
+    }
+
+    @GetMapping("/search")
+    public String user_search(@RequestParam(value = "username", required = false) String username,
+                              @RequestParam(value = "authority", required = false) String authority,
+                              Model model) {
+        // サービスを使って問い合わせを検索
+        List<Users> users = userService.user_search(username, authority);
+        // モデルに検索結果を追加
+        model.addAttribute("userList", users);
+        // 問い合わせ一覧ページを返す
+        return "users/list";  // 問い合わせ一覧ページのビュー名
     }
 
     @GetMapping("/creationForm")
@@ -64,4 +83,5 @@ public class UserController {
 //        userRepository.updateDeleteFlag(username, true);
         return "redirect:/users"; // ユーザー一覧ページにリダイレクト
     }
+
 }

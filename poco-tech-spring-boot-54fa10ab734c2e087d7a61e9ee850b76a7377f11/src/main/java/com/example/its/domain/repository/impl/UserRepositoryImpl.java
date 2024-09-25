@@ -35,6 +35,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public List<Users> user_search(String username, String authority) {
+        try {
+            // 引数を使ってユーザーを検索
+            List<com.example.its.infrastructure.entity.Users> entities = usersDao.user_search(username, authority);
+            return entities.stream()
+                    .map(usersMapper::mapToDomain) // エンティティをドメインオブジェクトにマッピング
+                    .collect(Collectors.toList());
+        }catch(Exception e){
+            throw new RuntimeException("ユーザーの検索中にエラーが発生しました。", e);
+        }
+    }
+
+    @Override
     public Users insert(Users users) {
         try {
             com.example.its.infrastructure.entity.Users entity = usersMapper.mapToEntity(users);
@@ -60,4 +73,7 @@ public class UserRepositoryImpl implements UserRepository {
     public Result<Users> updateDeleteFlag(Users users) {
         return null;
     }
+
+
+
 }

@@ -37,7 +37,11 @@
     <tbody>
     <tr th:each="users : ${userList}" th:if="${users.isDeleted == 0}">
         <th th:text="${users.username}">(username)</th>
-        <th th:text="${users.authority}">(authority)</th>
+        <th>
+            <span th:if="${users.authority == '1'}">ADMIN</span>
+            <span th:if="${users.authority == '2'}">USER</span>
+            <span th:if="${users.authority != '1' and users.authority != '2'}">(authority)</span>
+        </th>
         <th>
             <form th:action="@{/users/delete}" method="post">
                 <input type="hidden" name="username" th:value="${users.username}">

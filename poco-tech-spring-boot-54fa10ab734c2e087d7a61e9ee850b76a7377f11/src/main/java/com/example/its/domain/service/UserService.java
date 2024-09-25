@@ -1,8 +1,10 @@
 package com.example.its.domain.service;
 
+import com.example.its.domain.model.Inquery;
 import com.example.its.domain.model.Users;
 import com.example.its.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -81,22 +84,8 @@ public class UserService  {
 
     public void setUsername(String username){session.setAttribute("username",username);}
 
-    //パスワードアップデートするときにセッションデータを取得するコードをかく
 
-    // ユーザーの権限を更新するメソッド
-//    public void updateUserAuthority(Long userId, String newAuthority) {
-//        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-//
-//        // 新しいUserオブジェクトを作成して、権限を更新
-//        User updatedUser = new User(
-//                user.getUsername(),
-//                user.getPassword(),
-//                newAuthority,   // 新しい権限
-//                user.getIsDeleted(),
-//                user.getCreatedAt(),
-//                LocalDateTime.now() // 更新日時を現在の時間に設定
-//        );
-//
-//        userRepository.save(updatedUser);
-//    }
+    public List<Users> user_search(@Param("username") String username, @Param("authority") String authority) {
+        return userRepository.user_search(username, authority);
+    }
 }
