@@ -22,8 +22,7 @@ public interface UsersDao {
     @Select
     List<Users> findAll();
 
-    @Insert
-    @Transactional
+    @Insert(sqlFile = true)
     Result<Users> insert(Users users);
 
     @Update
