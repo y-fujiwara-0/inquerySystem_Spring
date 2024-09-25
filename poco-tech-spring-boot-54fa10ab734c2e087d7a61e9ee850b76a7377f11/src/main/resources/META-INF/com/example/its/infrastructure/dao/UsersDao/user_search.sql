@@ -1,10 +1,8 @@
-<select id="selectUsers" resultType="User">
     SELECT * FROM users
-    WHERE 1=1
-    <if test="username != null and !username.isEmpty()">
-        AND username LIKE CONCAT('%', /* username */'username', '%')
-    </if>
-    <if test="authority != null">
-        AND authority = /* authority */'1'
-    </if>
-</select>
+    WHERE 1 = 1
+    /*%if username != null*/
+        AND username LIKE CONCAT('%', /*username*/'username', '%')
+        /*%end*/
+        /*%if authority != null*/
+        AND authority LIKE CONCAT('%', /*authority*/'0', '%')
+       /*%end*/
