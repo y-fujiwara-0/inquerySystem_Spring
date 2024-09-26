@@ -26,7 +26,7 @@ public class Sample {
     String name;
 
     /** createdAt */
-    @Column(name = "CREATED_AT")
+    @Column(name = "createdAt")
     LocalDateTime createdAt;
 
     /**

@@ -1,0 +1,1 @@
+UPDATE inquerys  SET unread = '0' WHERE inquery_id = #{inquery_id}

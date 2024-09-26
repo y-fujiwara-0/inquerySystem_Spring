@@ -43,7 +43,7 @@ public class InqueryController {
             return "inquery/inqueryForm";
         }//ラムダ式に変更
         Inquery inquery = new Inquery();
-        Optional.ofNullable(inqueryForm.getMailAddress()).ifPresent(inquery::setMail_Address);
+        Optional.ofNullable(inqueryForm.getMailAddress()).ifPresent(inquery::setMailAddress);
         Optional.ofNullable(inqueryForm.getName()).ifPresent(inquery::setName);
         Optional.ofNullable(inqueryForm.getOld())
                 .filter(old -> !old.isEmpty())  // 空文字を除外
@@ -58,7 +58,7 @@ public class InqueryController {
                 });
         Optional.ofNullable(inqueryForm.getAddress()).ifPresent(inquery::setAddress);
         Optional.ofNullable(inqueryForm.getClassification()).ifPresent(inquery::setClassification);
-        inquery.setRegistration_At(LocalDateTime.parse(Optional.ofNullable(inqueryForm.getDay()).orElseGet(() -> String.valueOf(LocalDate.now()))));
+        inquery.setRegistrationAt(LocalDateTime.parse(Optional.ofNullable(inqueryForm.getDay()).orElseGet(() -> String.valueOf(LocalDate.now()))));
         inquery.setIs_readed(Optional.ofNullable(inqueryForm.getUnread()).orElse("1"));
         Optional.ofNullable(inqueryForm.getBody()).ifPresent(inquery::setContent);
         inqueryService.save(inquery);
@@ -75,17 +75,17 @@ public class InqueryController {
     public String markAsRead(@PathVariable Long id) {
         Optional.ofNullable(id)
                 .map(inqueryService::findById)
-                .ifPresent(inquery -> inqueryRepository.markAsUnread(inquery.getInquery_id()));
+                .ifPresent(inquery -> inqueryRepository.markAsUnread(inquery.getInqueryId()));
         return "inquery/list";
     }
 
     @GetMapping("/search")
-    public String inquery_search(@RequestParam(required = false) String keyword,
+    public String inquerySearch(@RequestParam(required = false) String keyword,
                                  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
                                  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
                                  Model model) {
         // サービスを使って問い合わせを検索
-        List<Inquery> inqueries = inqueryService.inquery_search(keyword, dateFrom, dateTo);
+        List<Inquery> inqueries = inqueryService.inquerySearch(keyword, dateFrom, dateTo);
 
         // モデルに検索結果を追加
         model.addAttribute("inqueryList", inqueries);

@@ -1,0 +1,1 @@
+select * from inquerys ORDER BY inquery_id DESC

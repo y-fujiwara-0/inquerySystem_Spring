@@ -1,0 +1,1 @@
+select * from inquerys where inquery_id = /*id*/'0'

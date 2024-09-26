@@ -1,0 +1,1 @@
+UPDATE inquerys  SET is_readed = '1' WHERE inquery_id = #{inquery_id}

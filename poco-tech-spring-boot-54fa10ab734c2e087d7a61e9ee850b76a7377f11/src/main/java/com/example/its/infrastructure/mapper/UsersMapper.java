@@ -9,7 +9,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UsersMapper {
-    Users toModel(com.example.its.infrastructure.entity.Users entity);
 
     Users mapToDomain(com.example.its.infrastructure.entity.Users entity);
 

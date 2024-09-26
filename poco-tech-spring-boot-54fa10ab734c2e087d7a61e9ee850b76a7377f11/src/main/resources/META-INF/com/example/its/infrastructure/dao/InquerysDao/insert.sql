@@ -1,0 +1,1 @@
+insert into inquerys (summary, description) values (#{summary}, #{description})

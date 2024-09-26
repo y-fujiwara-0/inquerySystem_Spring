@@ -21,8 +21,8 @@ public class InqueryService {
         return inqueryRepository.findAll();
     }
 
-    public List<Inquery> inquery_search(String keyword, LocalDate dateFrom, LocalDate dateTo) {
-        return inqueryRepository.inquery_search(keyword, dateFrom, dateTo);
+    public List<Inquery> inquerySearch(String keyword, LocalDate dateFrom, LocalDate dateTo) {
+        return inqueryRepository.inquerySearch(keyword, dateFrom, dateTo);
     }
 
 
@@ -39,13 +39,13 @@ public class InqueryService {
     }
 
     // 既読処理
-    public void markAsRead(Long inquery_id) {
-        updateUnreadStatus(inquery_id, "0");
+    public void markAsRead(Long inqueryId) {
+        updateUnreadStatus(inqueryId, "0");
     }
 
     // 未読処理
-    public void markAsUnread(Long inquery_id) {
-        updateUnreadStatus(inquery_id, "1");
+    public void markAsUnread(Long inqueryId) {
+        updateUnreadStatus(inqueryId, "1");
     }
 
     // 共通処理
@@ -55,6 +55,6 @@ public class InqueryService {
                     inquery.setIs_readed(status);
                     return inquery;
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Inquiry not found with inquery_id: " + id)));
+                .orElseThrow(() -> new IllegalArgumentException("Inquiry not found with inqueryId: " + id)));
     }
 }

@@ -2,6 +2,7 @@ package com.example.its.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.seasar.doma.Column;
 import org.seasar.doma.Id;
 
@@ -9,52 +10,52 @@ import java.time.LocalDateTime;
 
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Inquery{
 
-    @Id
-    @Column(name = "inquery_id")
-    private Long inquery_id;
 
-    private String mail_Address;
+    Long inqueryId;
 
-    private String name;
+    String mailAddress;
 
-    private Integer age;
+    String name;
 
-    private String address;
+    Integer age;
 
-    private String classification;
+    String address;
 
-    private LocalDateTime registration_At;
+    String classification;
 
-    private LocalDateTime reply_At;
+    LocalDateTime registrationAt;
 
-    private String is_readed;
+    LocalDateTime replyAt;
 
-    private String content;
+    String isReaded;
 
-    private LocalDateTime created_at;
+    String content;
 
-    private LocalDateTime updated_at;
+    LocalDateTime createdAt;
 
-    public Inquery(){
-    }
+    LocalDateTime updatedAt;
 
-    public Inquery(String mail_Address, String name, Integer age, String address, String classification,
-                   LocalDateTime registration_At, LocalDateTime reply_At, String is_readed,
-                   String content ,LocalDateTime created_at, LocalDateTime updated_at) {
-        this.mail_Address = mail_Address;
-        this.name = name;
-        this.age = age;
-        this.address = address;
-        this.classification = classification;
-        this.registration_At = registration_At;
-        this.reply_At = reply_At;
-        this.is_readed = is_readed;
-        this.content = content;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
+//    public Inquery(){
+//    }
+//
+//    public Inquery(String mailAddress, String name, Integer age, String address, String classification,
+//                   LocalDateTime registrationAt, LocalDateTime replyAt, String isReaded,
+//                   String content ,LocalDateTime createdAt, LocalDateTime updatedAt) {
+//        this.mailAddress = mailAddress;
+//        this.name = name;
+//        this.age = age;
+//        this.address = address;
+//        this.classification = classification;
+//        this.registrationAt = registrationAt;
+//        this.replyAt = replyAt;
+//        this.isReaded = isReaded;
+//        this.content = content;
+//        this.createdAt = createdAt;
+//        this.updatedAt = updatedAt;
+//    }
 
 }

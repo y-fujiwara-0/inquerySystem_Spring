@@ -1,0 +1,2 @@
+insert into inquerys (mail_Address, name, age, address, classification, registration_At, is_readed, text)
+values(#{mailAddress}, #{name}, #{age}, #{address}, #{classification}, #{registration_at}, #{isReaded}, #{text})

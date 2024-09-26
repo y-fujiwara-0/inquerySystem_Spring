@@ -1,7 +1,13 @@
 package com.example.its.domain.repository;
 
 import com.example.its.domain.model.Inquery;
-import org.apache.ibatis.annotations.*;
+import com.example.its.infrastructure.entity.Inquerys;
+import org.mapstruct.Mapper;
+import org.seasar.doma.Insert;
+import org.seasar.doma.Select;
+import org.seasar.doma.Update;
+import org.seasar.doma.jdbc.Result;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -10,44 +16,29 @@ import java.util.List;
 @Mapper
 public interface InqueryRepository{
 
-    @Select("select * from inquerys ORDER BY inquery_id DESC")
+    @Select
     List<Inquery> findAll();
 
-    @Insert("insert into inquerys (summary, description) values (#{summary}, #{description})")
+    @Insert
     void insert(String summary, String description);
 
-    @Select("select * from inquerys where inquery_id = #{inquery_id}")
+    @Select
     Inquery findById(long inqueryId);
 
-    @Insert("insert into inquerys (mail_Address, name, age, address, classification, registration_At, is_readed, text) values(#{mailAddress}, #{name}, #{age}, #{address}, #{classification}, #{registration_at}, #{isReaded}, #{text})")
-    int save(Inquery inquery);
+    @Insert
+    Result<Inquerys> save(Inquery inquery);
 
     @Transactional
-    @Update("UPDATE inquerys  SET unread = '0' WHERE inquery_id = #{inquery_id}")
-    void markAsRead(@Param("inquery_id") String inquery_id);
+    @Update
+    void markAsRead(@Param("inqueryId") String inqueryId);
 
     @Transactional
-    @Update("UPDATE inquerys  SET is_readed = '1' WHERE inquery_id = #{inquery_id}")
-    void markAsUnread(@Param("inquery_id") Long inquery_id);
+    @Update
+    void markAsUnread(@Param("inqueryId") Long inqueryId);
 
 
-    @Select("<script>"
-            + "SELECT * FROM inquerys"
-            + " WHERE 1=1"
-            + "<if test='keyword != null and !keyword.isEmpty()'>"
-            + " AND (mail_Address LIKE CONCAT('%', #{keyword}, '%')"
-            + " OR name LIKE CONCAT('%', #{keyword}, '%')"
-            + " OR content LIKE CONCAT('%', #{keyword}, '%'))"
-            + "</if>"
-            + "<if test='dateFrom != null'>"
-            + " AND registration_At &gt;= #{dateFrom}"
-            + "</if>"
-            + "<if test='dateTo != null'>"
-            + " AND registration_At &lt;= #{dateTo}"
-            + "</if>"
-            + " ORDER BY inquery_id DESC"
-            + "</script>")
-    List<Inquery> inquery_search(@Param("keyword") String keyword,
+    @Select
+    List<Inquery> inquerySearch(@Param("keyword") String keyword,
                                  @Param("dateFrom") LocalDate dateFrom,
                                  @Param("dateTo") LocalDate dateTo);
 

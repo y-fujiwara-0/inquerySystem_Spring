@@ -25,8 +25,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
     @GetMapping
