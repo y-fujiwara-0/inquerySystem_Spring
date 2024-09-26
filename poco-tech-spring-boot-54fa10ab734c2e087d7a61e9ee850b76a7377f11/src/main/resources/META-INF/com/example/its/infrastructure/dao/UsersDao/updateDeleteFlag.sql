@@ -1,3 +1,3 @@
 UPDATE users
-SET deleteflag = /*deleteflag*/false
-WHERE username = /*username*/'default_username'
+SET is_deleted = '1'
+WHERE username = /*username*/'username'

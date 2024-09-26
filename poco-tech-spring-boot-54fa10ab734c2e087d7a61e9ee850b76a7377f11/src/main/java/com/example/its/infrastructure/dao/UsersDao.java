@@ -24,7 +24,7 @@ public interface UsersDao {
     List<Users> findAll();
 
     @Select
-    List<Users> user_search(@Param("username") String username, @Param("authority") String authority);
+    List<Users> userSearch(@Param("username") String username, @Param("authority") String authority);
 
     @Insert(sqlFile = true)
     Result<Users> insert(Users users);
@@ -33,7 +33,10 @@ public interface UsersDao {
     @Transactional
     Result<Users> updatePassword(Users users);
 
-    @Update
+    @Update(sqlFile = true)
     @Transactional
-    Result<Users> updateDeleteFlag(Users users);
+    int updateDeleteFlag(String username);
+
+    @Select
+    Users findByUsername(String username);
 }

@@ -33,12 +33,7 @@ public interface UsersMapper {
                 users.getIsDeleted(),
                 users.getCreatedAt(),
                 users.getUpdatedAt()
-        );
-    }
-
-    //List<Users> user_search(@Param("username") String username, @Param("authority") String authority);
-
-
+        );}
 }
 
 

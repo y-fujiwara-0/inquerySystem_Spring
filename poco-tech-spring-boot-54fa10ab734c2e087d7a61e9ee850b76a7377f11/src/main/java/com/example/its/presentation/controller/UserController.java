@@ -36,11 +36,11 @@ public class UserController {
     }
 
     @GetMapping("/search")
-    public String user_search(@RequestParam(value = "username", required = false) String username,
+    public String userSearch(@RequestParam(value = "username", required = false) String username,
                               @RequestParam(value = "authority", required = false) String authority,
                               Model model) {
         // サービスを使って問い合わせを検索
-        List<Users> users = userService.user_search(username, authority);
+        List<Users> users = userService.userSearch(username, authority);
         // モデルに検索結果を追加
         model.addAttribute("userList", users);
         // 問い合わせ一覧ページを返す
@@ -79,9 +79,14 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public String deleteUser(@RequestParam("username") String username) {
-//        userRepository.updateDeleteFlag(username, true);
-        return "redirect:/users"; // ユーザー一覧ページにリダイレクト
+    public String deleteUser(@RequestParam("username") String username, Model model) {
+        // ユーザー検索
+        userService.deleteUserSearch(username);
+        // 削除フラグを変更
+        userRepository.updateDeleteFlag(username);
+        // ユーザー一覧をモデルに追加
+        model.addAttribute("userList", userRepository.findAll()); // 仮のfindAll()メソッド例
+        return "redirect:/users";
     }
 
 }

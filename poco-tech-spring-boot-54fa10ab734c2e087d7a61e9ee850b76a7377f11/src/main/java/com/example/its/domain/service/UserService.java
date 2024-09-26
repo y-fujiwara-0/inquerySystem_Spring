@@ -1,6 +1,5 @@
 package com.example.its.domain.service;
 
-import com.example.its.domain.model.Inquery;
 import com.example.its.domain.model.Users;
 import com.example.its.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -85,7 +83,11 @@ public class UserService  {
     public void setUsername(String username){session.setAttribute("username",username);}
 
 
-    public List<Users> user_search(@Param("username") String username, @Param("authority") String authority) {
-        return userRepository.user_search(username, authority);
+    public List<Users> userSearch(@Param("username") String username, @Param("authority") String authority) {
+        return userRepository.userSearch(username, authority);
+    }
+
+    public void deleteUserSearch(String username){
+        userRepository.deleteUserSearch(username);
     }
 }
